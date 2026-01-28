@@ -214,8 +214,9 @@ class MainActivity : AppCompatActivity() {
     private fun performOcr(bitmap: android.graphics.Bitmap, rect: Rect) {
         val baseUrl = prefs.getString(SettingsActivity.KEY_API_BASE_URL, "") ?: ""
         val apiKey = prefs.getString(SettingsActivity.KEY_API_KEY, "") ?: ""
+        val model = prefs.getString(SettingsActivity.KEY_MODEL, SettingsActivity.DEFAULT_MODEL) ?: SettingsActivity.DEFAULT_MODEL
 
-        val client = OcrApiClient(baseUrl, apiKey)
+        val client = OcrApiClient(baseUrl, apiKey, model)
 
         lifecycleScope.launch {
             val result = client.recognizeText(bitmap)
