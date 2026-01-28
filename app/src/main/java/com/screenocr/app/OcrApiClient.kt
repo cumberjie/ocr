@@ -33,7 +33,7 @@ class OcrApiClient(
             val contentArray = JSONArray().apply {
                 put(JSONObject().apply {
                     put("type", "text")
-                    put("text", "请识别图片中的所有文字，只返回识别出的文字内容，不要添加任何解释或说明。如果图片中没有文字，请回复"未识别到文字"。")
+                    put("text", "请识别图片中的所有文字，只返回识别出的文字内容，不要添加任何解释或说明。如果图片中没有文字，请回复：未识别到文字。")
                 })
                 put(JSONObject().apply {
                     put("type", "image_url")
