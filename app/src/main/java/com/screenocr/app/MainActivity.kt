@@ -231,11 +231,17 @@ class MainActivity : AppCompatActivity() {
                     ResultDialog(this@MainActivity, text).show()
                 },
                 onFailure = { error ->
-                    Toast.makeText(
-                        this@MainActivity,
-                        getString(R.string.error_ocr_failed, error.message),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    val errorMessage = buildString {
+                        append("识别失败\n\n")
+                        append("错误信息：\n")
+                        append(error.message ?: "未知错误")
+                        append("\n\n")
+                        append("请检查：\n")
+                        append("1. API 地址是否正确\n")
+                        append("2. API Key 是否有效\n")
+                        append("3. 模型是否支持图片输入")
+                    }
+                    ResultDialog(this@MainActivity, errorMessage, isError = true).show()
                 }
             )
         }

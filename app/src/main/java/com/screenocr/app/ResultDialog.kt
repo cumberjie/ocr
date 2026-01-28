@@ -8,11 +8,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ResultDialog(
     private val context: Context,
-    private val text: String
+    private val text: String,
+    private val isError: Boolean = false
 ) {
     fun show() {
+        val title = if (isError) R.string.error_title else R.string.result_title
+
         MaterialAlertDialogBuilder(context)
-            .setTitle(R.string.result_title)
+            .setTitle(title)
             .setMessage(text)
             .setPositiveButton(R.string.btn_copy) { _, _ ->
                 copyToClipboard()
@@ -23,7 +26,7 @@ class ResultDialog(
 
     private fun copyToClipboard() {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("OCR Result", text)
+        val clip = ClipData.newPlainText(if (isError) "Error" else "OCR Result", text)
         clipboard.setPrimaryClip(clip)
         Toast.makeText(context, R.string.text_copied, Toast.LENGTH_SHORT).show()
     }
