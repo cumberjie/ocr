@@ -15,7 +15,7 @@ import java.io.ByteArrayOutputStream
 import java.util.concurrent.TimeUnit
 
 class OcrApiClient(
-    private val baseUrl: String,
+    private val apiUrl: String,
     private val apiKey: String,
     private val model: String = "gpt-4o-mini"
 ) {
@@ -56,17 +56,9 @@ class OcrApiClient(
                 put("max_tokens", 4096)
             }.toString()
 
-            // Use /v1/chat/completions endpoint (OpenAI compatible)
-            val endpoint = if (baseUrl.endsWith("/v1")) {
-                "$baseUrl/chat/completions"
-            } else if (baseUrl.endsWith("/")) {
-                "${baseUrl}v1/chat/completions"
-            } else {
-                "$baseUrl/v1/chat/completions"
-            }
-
+            // Use the URL directly as provided by user
             val request = Request.Builder()
-                .url(endpoint)
+                .url(apiUrl)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", "Bearer $apiKey")
                 .post(requestBody.toRequestBody("application/json".toMediaType()))
@@ -83,14 +75,7 @@ class OcrApiClient(
         val body = response.body?.string() ?: return Result.failure(Exception("Empty response"))
 
         if (!response.isSuccessful) {
-            return try {
-                val json = JSONObject(body)
-                val error = json.optJSONObject("error")
-                val message = error?.optString("message") ?: "HTTP ${response.code}"
-                Result.failure(Exception(message))
-            } catch (e: Exception) {
-                Result.failure(Exception("HTTP ${response.code}: $body"))
-            }
+            return Result.failure(Exception("HTTP ${response.code}: $body"))
         }
 
         return try {
@@ -116,10 +101,10 @@ class OcrApiClient(
                         ?: return Result.failure(Exception("No text in response"))
                     Result.success(text)
                 }
-                else -> Result.failure(Exception("无法解析响应"))
+                else -> Result.failure(Exception("Unable to parse response"))
             }
         } catch (e: Exception) {
-            Result.failure(Exception("解析响应失败: ${e.message}"))
+            Result.failure(Exception("Parse error: ${e.message}"))
         }
     }
 

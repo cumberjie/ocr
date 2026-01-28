@@ -8,12 +8,12 @@
 
     <!-- Settings Activity -->
     <string name="settings_title">设置</string>
-    <string name="hint_api_base_url">API Base URL</string>
+    <string name="hint_api_base_url">API URL (完整地址)</string>
     <string name="hint_api_key">API Key</string>
     <string name="hint_model">模型名称</string>
     <string name="btn_save">保存</string>
     <string name="settings_saved">设置已保存</string>
-    <string name="settings_hint">支持 OpenAI 兼容协议\n示例 URL: https://api.openai.com\n示例模型: gpt-4o-mini, gpt-4o, claude-3-5-sonnet</string>
+    <string name="settings_hint">填写完整的 API 地址\n示例: https://api.openai.com/v1/chat/completions\n模型: gpt-4o-mini, gpt-4o, claude-3-5-sonnet</string>
 
     <!-- Permissions -->
     <string name="permission_overlay_title">需要悬浮窗权限</string>
